@@ -13,22 +13,19 @@ describe('My Login Application', () => {
   let browser
   let controller
 
-  before(async () => {
-    const options = new Options()
-    options.addArguments('--headless=new')
-    browser = await new Builder()
-      .forBrowser('chrome')
-      .setChromeOptions(
-        webdriverConfig({
-          axe: {
-            apiKey: API_KEY,
-            serverURL: SERVER_URL
-          },
-          options
-        })
-      )
-      .build()
-    controller = new WebdriverController(browser)
+  let browser = await new Builder().forBrowser('chrome').build()
+// Becomes:
+let browser = await new Builder()
+  .forBrowser('chrome')
+  .setChromeOptions(
+    webdriverConfig({
+      axe: {
+        apiKey: '7db74ed7-2454-43e3-bcca-a18d6ed061e0'
+      }
+    }
+  )
+  .build()
+    const controller = new WebdriverController(browser)
     browser = wrapWebdriver(browser, controller)
   })
 
@@ -37,6 +34,8 @@ describe('My Login Application', () => {
   })
 
   afterEach(async () => {
+  await controller.flush()
+})
     await controller.flush()
   })
 
